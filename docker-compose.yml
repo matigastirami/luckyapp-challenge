@@ -1,0 +1,88 @@
+services:
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+    env_file:
+    - .env
+    command: npm run start:dev
+    ports:
+      - "3001:3001"
+    networks:
+      - backend
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis:latest
+    ports:
+     - "6379:6379"
+     - "8001:8001"
+    restart: always
+    volumes: 
+      - cache:/data
+    networks:
+      - backend
+    #command: ["redis-server", "--bind", "redis", "--port", "6379"]
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    networks:
+      - backend
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8088:8081"
+    depends_on:
+      - redis
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - backend
+    restart: unless-stopped
+    depends_on:
+     - postgres
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  cache:
+    driver: local
