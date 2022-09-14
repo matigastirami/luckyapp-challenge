@@ -1,7 +1,9 @@
+import { PoolClient } from 'pg';
+
 export interface BaseRepository<T> {
-  getById(id: number): Promise<T>;
-  getAll?(): Promise<T[]>;
-  create?(data): Promise<T>;
-  update?(data): Promise<T>;
-  delete?(data): Promise<T>;
+  getById(id: number, trx?: PoolClient): Promise<T>;
+  getAll?(trx?: PoolClient): Promise<T[]>;
+  create?(data, trx?: PoolClient): Promise<T>;
+  update?(data, trx?: PoolClient): Promise<T>;
+  delete?(data, trx?: PoolClient): Promise<T>;
 }

@@ -16,7 +16,7 @@ services:
       - backend
     depends_on:
       - redis
-      - postgres
+      - postgres-server
 
   redis:
     container_name: redis
@@ -46,43 +46,49 @@ services:
     depends_on:
       - redis
 
-  postgres:
-    container_name: postgres_container
-    image: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-      PGDATA: /data/postgres
+  postgres-server:
+    container_name: postgres-server
+    hostname: postgresql
+    image: postgres:latest
     volumes:
-       - postgres:/data/postgres
-    ports:
-      - "5432:5432"
+      - 'postgres-server-master_data:/var/lib/postgresql/data'
+    environment:
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD:-postgres}
+      - POSTGRES_USER=${DATABASE_USER:-postgres}
+      - POSTGRES_DB=${DATABASE_DEFAULT:-postgres}
     networks:
       - backend
-    restart: unless-stopped
-  
+    ports:
+      - 5432:5432
+    restart: always
+
   pgadmin:
-    container_name: pgadmin_container
+    container_name: postgres-pgadmin
+    hostname: postgres-pgadmin
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-    volumes:
-       - pgadmin:/root/.pgadmin
-    ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
     networks:
       - backend
-    restart: unless-stopped
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: on-failure
     depends_on:
-     - postgres
+      - postgres-server
 
 networks:
   backend:
-    driver: bridge
+    name: ${DATABASE_NETWORK:-postgres-server}
 
 volumes:
-  postgres:
-  pgadmin:
+  postgres-server-master_data:
+    driver: local
+    name: postgres-server-master_data
+  pgadmin_data:
+    driver: local
+    name: pgadmin_data
   cache:
     driver: local

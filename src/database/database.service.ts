@@ -7,17 +7,42 @@ export class DatabaseService {
 
   constructor(@Inject('DATABASE_POOL') private pool: Pool) {}
 
-  executeQuery(queryText: string, values: any[] = []): Promise<any[]> {
+  private getConnection(trx): Promise<PoolClient> {
+    if (trx) {
+      return trx as Promise<PoolClient>;
+    }
+
+    return this.pool.connect();
+  }
+
+  async executeQuery(
+    queryText: string,
+    values: any[] = [],
+    trx?: PoolClient,
+  ): Promise<any[]> {
+    const client = await this.getConnection(trx);
+
     this.logger.debug(`Executing query: ${queryText} (${values})`);
-    return this.pool.query(queryText, values).then((result: QueryResult) => {
-      this.logger.debug(`Executed query, result size ${result.rows.length}`);
-      return result.rows;
-    });
+
+    try {
+      const res = await client.query(queryText, values);
+      this.logger.debug(`Query successfully executed`);
+      return res.rows;
+    } catch (error) {
+      this.logger.error(`Error on execute query`);
+      throw error;
+    } finally {
+      if (!trx) {
+        this.logger.debug(`Releasing client`);
+        client.release();
+      }
+    }
   }
 
   async startTransaction() {
     const client = await this.pool.connect();
     await client.query('BEGIN');
+    return client;
   }
 
   commit(client: PoolClient) {

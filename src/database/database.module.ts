@@ -5,6 +5,9 @@ import { ConfigService } from '@nestjs/config';
 import { ModuleRef } from '@nestjs/core';
 import { Pool } from 'pg';
 import { DatabaseService } from './database.service';
+import { AddressRepository } from './repositories/address.repository';
+import { ProfileRepository } from './repositories/profile.repository';
+import { UserRepository } from './repositories/user.repository';
 
 const databasePoolFactory = async (configService: ConfigService) => {
   return new Pool({
@@ -16,16 +19,20 @@ const databasePoolFactory = async (configService: ConfigService) => {
   });
 };
 
+export const databasePoolProvider = {
+  provide: 'DATABASE_POOL',
+  inject: [ConfigService],
+  useFactory: databasePoolFactory,
+};
 @Module({
   providers: [
-    {
-      provide: 'DATABASE_POOL',
-      inject: [ConfigService],
-      useFactory: databasePoolFactory,
-    },
+    databasePoolProvider,
     DatabaseService,
+    UserRepository,
+    AddressRepository,
+    ProfileRepository,
   ],
-  exports: [DatabaseService],
+  exports: [DatabaseService, UserRepository],
 })
 export class DatabaseModule implements OnApplicationShutdown {
   private readonly logger = new Logger(DatabaseModule.name);
