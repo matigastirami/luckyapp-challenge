@@ -5,8 +5,8 @@ import { BaseRepository } from './base.repository';
 
 interface IProfile {
   id: number;
-  userId: number;
-  addressId: number;
+  userid: number;
+  addressid: number;
   name: string;
 }
 
@@ -33,7 +33,7 @@ export class ProfileRepository implements BaseRepository<IProfile> {
     return result;
   }
 
-  async getByUser(userId, trx?: PoolClient): Promise<IProfile> {
+  async getByUser(userId: number, trx?: PoolClient): Promise<IProfile> {
     return (
       await this._databaseService.executeQuery(
         `SELECT id, userId, name, addressId

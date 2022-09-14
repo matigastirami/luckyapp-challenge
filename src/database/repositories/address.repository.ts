@@ -6,7 +6,7 @@ import { BaseRepository } from './base.repository';
 interface IAddress {
   id: number;
   street: string;
-  cityId: number;
+  cityid: number;
 }
 
 export interface ICreateAddress {

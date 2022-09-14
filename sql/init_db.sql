@@ -42,6 +42,6 @@ CREATE TABLE IF NOT EXISTS profile(
       FOREIGN KEY (userId) 
 	  REFERENCES "user"(id),
 	CONSTRAINT fk_profile_to_address
-      FOREIGN KEY (userId) 
+      FOREIGN KEY (addressId) 
 	  REFERENCES address(id)
 );

@@ -6,7 +6,7 @@ import { BaseRepository } from './base.repository';
 interface ICity {
   id: number;
   name: string;
-  countryId: number;
+  countryid: number;
 }
 
 @Injectable()
@@ -16,7 +16,7 @@ export class CityRepository implements BaseRepository<ICity> {
   async getById(id: number, trx?: PoolClient): Promise<ICity> {
     return (
       await this._databaseService.executeQuery(
-        `SELECT id, name
+        `SELECT id, name, countryId
         FROM city
         WHERE id = $1;`,
         [id],
