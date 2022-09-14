@@ -6,6 +6,8 @@ import { ModuleRef } from '@nestjs/core';
 import { Pool } from 'pg';
 import { DatabaseService } from './database.service';
 import { AddressRepository } from './repositories/address.repository';
+import { CityRepository } from './repositories/city.repository';
+import { CountryRepository } from './repositories/country.repository';
 import { ProfileRepository } from './repositories/profile.repository';
 import { UserRepository } from './repositories/user.repository';
 
@@ -31,6 +33,8 @@ export const databasePoolProvider = {
     UserRepository,
     AddressRepository,
     ProfileRepository,
+    CityRepository,
+    CountryRepository,
   ],
   exports: [DatabaseService, UserRepository],
 })

@@ -5,8 +5,8 @@ import { BaseRepository } from './base.repository';
 
 interface IProfile {
   id: number;
-  userId: string;
-  addressId: string;
+  userId: number;
+  addressId: number;
   name: string;
 }
 
@@ -33,13 +33,15 @@ export class ProfileRepository implements BaseRepository<IProfile> {
     return result;
   }
 
-  getByUser(countryId, trx?: PoolClient): Promise<IProfile> {
-    return this._databaseService.executeQuery(
-      `SELECT id, userId, name, addressId
+  async getByUser(userId, trx?: PoolClient): Promise<IProfile> {
+    return (
+      await this._databaseService.executeQuery(
+        `SELECT id, userId, name, addressId
         FROM profile
-        WHERE city_id = $1;`,
-      [countryId],
-      trx,
+        WHERE userId = $1;`,
+        [userId],
+        trx,
+      )
     )[0];
   }
 

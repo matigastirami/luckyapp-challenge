@@ -5,7 +5,7 @@ import { BaseRepository } from './base.repository';
 
 interface IAddress {
   id: number;
-  name: string;
+  street: string;
   cityId: number;
 }
 
@@ -18,35 +18,38 @@ export interface ICreateAddress {
 export class AddressRepository implements BaseRepository<IAddress> {
   constructor(private readonly _databaseService: DatabaseService) {}
 
-  async getById(id: number): Promise<IAddress> {
+  async getById(id: number, trx?: PoolClient): Promise<IAddress> {
     return (
       await this._databaseService.executeQuery(
         `SELECT id, street, cityId
         FROM address
         WHERE id = $1;`,
         [id],
+        trx,
       )
     )[0];
   }
 
-  async getByCity(countryId): Promise<IAddress> {
+  async getByCity(countryId, trx?: PoolClient): Promise<IAddress> {
     return (
       await this._databaseService.executeQuery(
         `SELECT id, street, cityId
         FROM address
         WHERE cityId = $1;`,
         [countryId],
+        trx,
       )
     )[0];
   }
 
-  async getByStreet(street): Promise<IAddress> {
+  async getByStreet(street, trx?: PoolClient): Promise<IAddress> {
     return (
       await this._databaseService.executeQuery(
         `SELECT id, street, cityId
         FROM address
         WHERE street = $1;`,
         [street],
+        trx,
       )
     )[0];
   }

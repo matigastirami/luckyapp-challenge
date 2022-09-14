@@ -9,6 +9,18 @@ export interface IUser {
   password: string;
 }
 
+export interface IGetUserAddressResponse {
+  street: string;
+  city: string;
+  country: string;
+}
+
+export interface IGetUserResponse {
+  id: number;
+  name: string;
+  address: IGetUserAddressResponse;
+}
+
 export interface CreateUserInput {
   username: string;
   password: string;
