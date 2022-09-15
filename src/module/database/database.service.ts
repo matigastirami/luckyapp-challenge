@@ -55,14 +55,17 @@ export class DatabaseService {
   async startTransaction() {
     const client = await this.pool.connect();
     await client.query('BEGIN');
+    this.logger.log(`DB Transaction started`);
     return client;
   }
 
   commit(client: PoolClient) {
+    this.logger.log(`DB Transaction succeed`);
     return client.query('COMMIT');
   }
 
   rollback(client: PoolClient) {
+    this.logger.log(`DB Transaction failed`);
     return client.query('ROLLBACK');
   }
 }

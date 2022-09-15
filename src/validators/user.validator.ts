@@ -26,7 +26,6 @@ export class UsernameTakenRule implements ValidatorConstraintInterface {
       this.logger.error(
         `There was an error trying to fetch an user with username: ${value}`,
       );
-      console.log(e);
       return false;
     }
 
