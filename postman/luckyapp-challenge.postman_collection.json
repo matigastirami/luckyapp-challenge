@@ -1,0 +1,92 @@
+{
+	"info": {
+		"_postman_id": "59f318a4-6c31-4a9e-9337-00a155c67882",
+		"name": "luckyapp-challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5082414"
+	},
+	"item": [
+		{
+			"name": "1 - POST /user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test_124\",\r\n    \"password\": \"test5\",\r\n    \"name\": \"test5\",\r\n    \"address\": {\r\n        \"street\": \"BLABLA\",\r\n        \"cityId\": 1\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 - POST /auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test_124\",\r\n    \"password\": \"test5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 - GET /user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0XzEyNCIsInBhc3N3b3JkIjoiJDJiJDEwJDJoLk5BaldrdlVUZmNMVGFBZVRkbmVlaVBBZllXVjlNd2VJMnRjSVJLS1BVc25LSWF1QkJDIiwiaWF0IjoxNjYzMjYxNDEzLCJleHAiOjE2NjMyNjUwMTN9.d1gDpWA7uOss5jjjVMiFyy9UiV-SO-kizr1czTNgR_Q",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3001/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
