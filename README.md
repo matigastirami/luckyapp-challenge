@@ -10,8 +10,8 @@ This is NestJS service
 
 ## Tools
 In order to ease the manual testing process, I've added 2 services to the docker-compose file:
-    * pgAdmin: `http://localhost:5050`
-    * Redis commander: `http://localhost:8088/`
+* pgAdmin: `http://localhost:5050`
+* Redis commander: `http://localhost:8088/`
 The provide GUIs to check both the Postgres database and the Redis Cache.
 Also, I've added a Postman collection you can import, in the dir `./postman`
 
