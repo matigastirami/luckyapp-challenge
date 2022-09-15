@@ -1,4 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import ServiceError from '../helper/service-error';
+import { ErrorType } from '../helper/types';
 import { DatabaseService } from '../database/database.service';
 import { AddressRepository } from '../database/repositories/address.repository';
 import { CityRepository } from '../database/repositories/city.repository';
@@ -64,7 +66,18 @@ export class UserService {
     } catch (error) {
       this.logger.error('Error on user creation');
       await this.databaseService.rollback(trx);
-      throw error;
+      throw new ServiceError(
+        ErrorType.BUSINESS,
+        `Error trying to create an user`,
+        'BAD_REQUEST',
+        HttpStatus.BAD_REQUEST,
+        [
+          {
+            issue: 'BAD_REQUEST',
+            description: `Error trying to create an user`,
+          },
+        ],
+      );
     } finally {
       trx.release();
     }
@@ -76,7 +89,18 @@ export class UserService {
       const userProfile = await this.profileRepository.getByUser(id, trx);
 
       if (!userProfile) {
-        throw new Error('User not found');
+        throw new ServiceError(
+          ErrorType.BUSINESS,
+          `User not found`,
+          'NOT_FOUND',
+          HttpStatus.NOT_FOUND,
+          [
+            {
+              issue: 'NOT_FOUND',
+              description: `User not found`,
+            },
+          ],
+        );
       }
 
       const { name, addressid } = userProfile;
@@ -108,7 +132,18 @@ export class UserService {
     } catch (error) {
       this.logger.error('Error on user fetch');
       await this.databaseService.rollback(trx);
-      throw error;
+      throw new ServiceError(
+        ErrorType.BUSINESS,
+        `Error trying to fetch an user`,
+        'BAD_REQUEST',
+        HttpStatus.BAD_REQUEST,
+        [
+          {
+            issue: 'BAD_REQUEST',
+            description: `Error trying to fetch an user`,
+          },
+        ],
+      );
     } finally {
       trx.release();
     }

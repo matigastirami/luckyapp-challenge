@@ -1,5 +1,7 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { Pool, PoolClient, QueryResult } from 'pg';
+import ServiceError from '../helper/service-error';
+import { ErrorType } from '../helper/types';
 
 @Injectable()
 export class DatabaseService {
@@ -30,7 +32,18 @@ export class DatabaseService {
       return res.rows;
     } catch (error) {
       this.logger.error(`Error on execute query`);
-      throw error;
+      throw new ServiceError(
+        ErrorType.CONNECTION,
+        `Internal server error`,
+        'INTERNAL_SERVER_ERROR',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        [
+          {
+            issue: 'INTERNAL_SERVER_ERROR',
+            description: `Internal server error`,
+          },
+        ],
+      );
     } finally {
       if (!trx) {
         this.logger.debug(`Releasing client`);
