@@ -1,9 +1,9 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { UserRepository } from 'src/database/repositories/user.repository';
-import Hash from 'src/helper/hash';
+import { UserRepository } from '../database/repositories/user.repository';
+import Hash from '../helper/hash';
 import { JwtService } from '@nestjs/jwt';
-import ServiceError from 'src/helper/service-error';
-import { ErrorType } from 'src/helper/types';
+import ServiceError from '../helper/service-error';
+import { ErrorType } from '../helper/types';
 
 @Injectable()
 export class AuthService {

@@ -1,15 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { DatabaseService } from 'src/database/database.service';
-import { AddressRepository } from 'src/database/repositories/address.repository';
-import { CityRepository } from 'src/database/repositories/city.repository';
-import { CountryRepository } from 'src/database/repositories/country.repository';
-import { ProfileRepository } from 'src/database/repositories/profile.repository';
+import { DatabaseService } from '../database/database.service';
+import { AddressRepository } from '../database/repositories/address.repository';
+import { CityRepository } from '../database/repositories/city.repository';
+import { CountryRepository } from '../database/repositories/country.repository';
+import { ProfileRepository } from '../database/repositories/profile.repository';
 import {
   UserRepository,
   IGetUserResponse,
-} from 'src/database/repositories/user.repository';
-import { CreateUserDTO } from 'src/dto/user.dto';
-import Hash from 'src/helper/hash';
+} from '../database/repositories/user.repository';
+import { CreateUserDTO } from '../dto/user.dto';
+import Hash from '../helper/hash';
 
 @Injectable()
 export class UserService {

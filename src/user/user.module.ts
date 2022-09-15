@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from 'src/auth/auth.module';
-import { DatabaseService } from 'src/database/database.service';
-import { AddressRepository } from 'src/database/repositories/address.repository';
-import { CityRepository } from 'src/database/repositories/city.repository';
-import { CountryRepository } from 'src/database/repositories/country.repository';
-import { ProfileRepository } from 'src/database/repositories/profile.repository';
-import { UserRepository } from 'src/database/repositories/user.repository';
+import { AuthModule } from '../auth/auth.module';
+import { DatabaseService } from '../database/database.service';
+import { AddressRepository } from '../database/repositories/address.repository';
+import { CityRepository } from '../database/repositories/city.repository';
+import { CountryRepository } from '../database/repositories/country.repository';
+import { ProfileRepository } from '../database/repositories/profile.repository';
+import { UserRepository } from '../database/repositories/user.repository';
 import {
   DatabaseModule,
   databasePoolProvider,

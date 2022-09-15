@@ -1,27 +1,37 @@
 import { CacheModule, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import * as redisStore from 'cache-manager-redis-store';
 
+const ENV_FILE_MAPPING = {
+  development: '.env',
+  test: '.env.test',
+};
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ENV_FILE_MAPPING[process.env.NODE_ENV ?? 'development'],
     }),
     DatabaseModule,
     UserModule,
     AuthModule,
-    CacheModule.register({
-      store: redisStore,
+    CacheModule.registerAsync({
+      inject: [ConfigService],
       isGlobal: true,
-      host: 'redis',
-      port: 6379,
-      ttl: 30
+      useFactory: (configService: ConfigService) => ({
+        store: redisStore,
+        isGlobal: true,
+        host: configService.get('REDIS_HOST'),
+        port: configService.get('REDIS_PORT'),
+        ttl: configService.get('REDIS_DEFAULT_TTL'),
+      }),
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [ConfigService],
 })
 export class AppModule {}

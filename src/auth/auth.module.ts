@@ -5,8 +5,8 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { DatabaseModule } from 'src/database/database.module';
-import { UserRepository } from 'src/database/repositories/user.repository';
+import { DatabaseModule } from '../database/database.module';
+import { UserRepository } from '../database/repositories/user.repository';
 import { ConfigService } from '@nestjs/config';
 
 @Module({
