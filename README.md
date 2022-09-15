@@ -18,6 +18,8 @@ Also, I've added a Postman collection you can import, in the dir `./postman`
 ## Testing
 Tests are not currently running in the container so make sure you execute `npm install` before proceeding with the next steps. Also, make sure both `postgres` and `redis` containers are running.
 
+![e2e tests](/img/e2e_tests.jpg?raw=true "e2e tests result")
+
 ### E2E tests
 `npm run test:e2e`
 
