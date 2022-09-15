@@ -7,6 +7,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { DtoValidationPipe } from '../pipe/input-validation.pipe';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { IGetUserResponse } from '../database/repositories/user.repository';
 import { UserId } from '../decorator/user.decorator';
@@ -18,7 +19,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDTO) {
+  async createUser(
+    @Body(new DtoValidationPipe()) createUserDto: CreateUserDTO,
+  ) {
     return this.userService.createUser(createUserDto);
   }
 
