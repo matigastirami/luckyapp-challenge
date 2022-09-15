@@ -7,11 +7,11 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { DtoValidationPipe } from '../validators/input-validation.pipe';
+import { DtoValidationPipe } from '../../validators/input-validation.pipe';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { IGetUserResponse } from '../database/repositories/user.repository';
-import { UserId } from '../decorator/user.decorator';
-import { CreateUserDTO } from '../dto/user.dto';
+import { UserId } from '../../decorator/user.decorator';
+import { CreateUserDTO } from '../../dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')

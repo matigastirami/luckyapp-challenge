@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import ServiceError from '../helper/service-error';
-import { ErrorType } from '../helper/types';
+import ServiceError from '../../helper/service-error';
+import { ErrorType } from '../../helper/types';
 import { DatabaseService } from '../database/database.service';
 import { AddressRepository } from '../database/repositories/address.repository';
 import { CityRepository } from '../database/repositories/city.repository';
@@ -10,8 +10,8 @@ import {
   UserRepository,
   IGetUserResponse,
 } from '../database/repositories/user.repository';
-import { CreateUserDTO } from '../dto/user.dto';
-import Hash from '../helper/hash';
+import { CreateUserDTO } from '../../dto/user.dto';
+import Hash from '../../helper/hash';
 
 @Injectable()
 export class UserService {

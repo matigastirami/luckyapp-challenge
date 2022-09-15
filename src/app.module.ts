@@ -1,8 +1,8 @@
 import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseModule } from './database/database.module';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
+import { DatabaseModule } from './module/database/database.module';
+import { UserModule } from './module/user/user.module';
+import { AuthModule } from './module/auth/auth.module';
 import * as redisStore from 'cache-manager-redis-store';
 
 const ENV_FILE_MAPPING = {

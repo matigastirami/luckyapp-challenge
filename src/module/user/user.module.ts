@@ -12,7 +12,7 @@ import {
 } from '../database/database.module';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { UsernameTakenRule } from '../validators/user.validator';
+import { UsernameTakenRule } from '../../validators/user.validator';
 
 @Module({
   controllers: [UserController],

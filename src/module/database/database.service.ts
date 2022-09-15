@@ -1,7 +1,7 @@
 import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
-import { Pool, PoolClient, QueryResult } from 'pg';
-import ServiceError from '../helper/service-error';
-import { ErrorType } from '../helper/types';
+import { Pool, PoolClient } from 'pg';
+import ServiceError from '../../helper/service-error';
+import { ErrorType } from '../../helper/types';
 
 @Injectable()
 export class DatabaseService {

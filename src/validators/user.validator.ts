@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { UserRepository } from '../database/repositories/user.repository';
+import { UserRepository } from '../module/database/repositories/user.repository';
 import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
