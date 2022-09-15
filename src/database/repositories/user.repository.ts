@@ -44,6 +44,20 @@ export class UserRepository implements BaseRepository<IUser> {
     return result;
   }
 
+  async getByUsername(username: string, trx?: PoolClient): Promise<IUser> {
+    const result = (
+      await this._databaseService.executeQuery(
+        `SELECT id, username, password
+        FROM "user"
+        WHERE username = $1;`,
+        [username],
+        trx,
+      )
+    )[0];
+
+    return result;
+  }
+
   async create(data: CreateUserInput, trx?: PoolClient): Promise<IUser> {
     const { username, password } = data;
     return (

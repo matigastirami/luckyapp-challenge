@@ -7,11 +7,13 @@ services:
       target: development
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
     - .env
-    command: npm run start:dev
+    command: npm run start:debug
     ports:
-      - "3001:3001"
+      - "${PORT}:${PORT}"
+      - "9229:9229"
     networks:
       - backend
     depends_on:
@@ -52,6 +54,7 @@ services:
     image: postgres:latest
     volumes:
       - 'postgres-server-master_data:/var/lib/postgresql/data'
+      - ./sql/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
     environment:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD:-postgres}
       - POSTGRES_USER=${DATABASE_USER:-postgres}
@@ -82,6 +85,7 @@ services:
 networks:
   backend:
     name: ${DATABASE_NETWORK:-postgres-server}
+    driver: bridge
 
 volumes:
   postgres-server-master_data:

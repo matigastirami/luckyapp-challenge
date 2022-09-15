@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from 'src/auth/auth.module';
 import { DatabaseService } from 'src/database/database.service';
 import { AddressRepository } from 'src/database/repositories/address.repository';
 import { CityRepository } from 'src/database/repositories/city.repository';
@@ -24,6 +25,6 @@ import { UserService } from './user.service';
     CityRepository,
     CountryRepository,
   ],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, AuthModule],
 })
 export class UserModule {}

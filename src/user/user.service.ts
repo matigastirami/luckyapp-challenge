@@ -9,6 +9,7 @@ import {
   IGetUserResponse,
 } from 'src/database/repositories/user.repository';
 import { CreateUserDTO } from 'src/dto/user.dto';
+import Hash from 'src/helper/hash';
 
 @Injectable()
 export class UserService {
@@ -34,7 +35,7 @@ export class UserService {
     const trx = await this.databaseService.startTransaction();
     try {
       const user = await this.userRepository.create(
-        { username, password },
+        { username, password: await Hash.hashString(password) },
         trx,
       );
 
