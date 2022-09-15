@@ -9,7 +9,7 @@ This is NestJS service
 `docker-compose up --build -d`
 
 ## Testing
-Tests are not currently running in the container so make sure you execute `npm install` before proceeding with the next steps.
+Tests are not currently running in the container so make sure you execute `npm install` before proceeding with the next steps. Also, make sure both `postgres` and `redis` containers are running.
 
 ### E2E tests
 `npm run test:e2e`
