@@ -15,51 +15,58 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/tasks (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/tasks')
-      .expect(200)
-      .expect((res) => {
-        const body = res.body;
-        expect(body).toBeDefined();
-        expect(Array.isArray(body)).toBeTruthy();
-        expect(body).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              uuid: expect.any(String),
-              title: expect.any(String),
-              status: expect.any(String),
-            }),
-          ]),
-        );
-      });
-  });
+  it('should return the profile of an authenticated user', async () => {
+    const currentTimestamp = Date.now();
 
-  it('/tasks (PUT)', () => {
-    const uuid = '9994d43b-efe6-4d80-882f-6429d9ee66d2';
-    return request(app.getHttpServer())
-      .put(`/tasks/${uuid}`)
-      .expect(200)
-      .expect((res) => {
-        const body = res.body;
-        expect(body).toBeDefined();
-        expect(body).toHaveProperty('msg');
-        expect(body.msg).toBe(
-          'Task status for uuid 9994d43b-efe6-4d80-882f-6429d9ee66d2 sucessfully updated',
-        );
-      });
-  });
+    const mockSignInRequest = {
+      username: `test${currentTimestamp}`,
+      password: 'test',
+    };
 
-  it('/tasks (PUT) with invalid uuid', () => {
-    const uuid = 'invalid-string';
-    return request(app.getHttpServer())
-      .put(`/tasks/${uuid}`)
-      .expect(400)
-      .expect((res) => {
-        const body = res.body;
-        expect(body).toBeDefined();
-        expect(body).toHaveProperty('message');
-        expect(body.message).toBe('Invalid UUID');
-      });
+    const mockCreateUserRequest = {
+      ...mockSignInRequest,
+      name: 'test',
+      address: {
+        street: 'test_street',
+        cityId: 1,
+      },
+    };
+
+    const createUserResponse = await request(app.getHttpServer())
+      .post('/user')
+      .send(mockCreateUserRequest);
+
+    const expectedGetUserResponse = {
+      id: -1,
+      name: 'test',
+      address: {
+        street: 'test_street',
+        city: 'ARGENTINA_RANDOM_CITY',
+        country: 'ARGENTINA',
+      },
+    };
+
+    expect(createUserResponse.statusCode).toBe(201);
+    expect(createUserResponse.body).toHaveProperty('id');
+    expect(createUserResponse.body.id).not.toBeNull();
+
+    expectedGetUserResponse.id = createUserResponse.body.id;
+
+    const signInResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(mockSignInRequest);
+
+    expect(signInResponse.statusCode).toBe(200);
+    expect(signInResponse.body).toHaveProperty('access_token');
+
+    const accessToken = signInResponse.body.access_token;
+
+    const getProfileResponse = await request(app.getHttpServer())
+      .get('/user')
+      .set('Authorization', accessToken)
+      .send();
+
+    expect(getProfileResponse.statusCode).toBe(200);
+    expect(getProfileResponse.body).toStrictEqual(expectedGetUserResponse);
   });
 });
