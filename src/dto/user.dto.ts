@@ -49,3 +49,15 @@ export class CreateUserDTO {
   @Type(() => CreateUserAddressDto)
   address: CreateUserAddressDto;
 }
+
+export interface IGetUserAddressResponse {
+  street: string;
+  city: string;
+  country: string;
+}
+
+export interface IGetUserResponse {
+  id: number;
+  name: string;
+  address: IGetUserAddressResponse;
+}

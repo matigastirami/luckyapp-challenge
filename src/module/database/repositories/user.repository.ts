@@ -1,25 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PoolClient } from 'pg';
 import { DatabaseService } from '../database.service';
+import { IUser } from '../models/user.model';
 import { BaseRepository } from './base.repository';
-
-export interface IUser {
-  id: number;
-  username: string;
-  password: string;
-}
-
-export interface IGetUserAddressResponse {
-  street: string;
-  city: string;
-  country: string;
-}
-
-export interface IGetUserResponse {
-  id: number;
-  name: string;
-  address: IGetUserAddressResponse;
-}
 
 export interface CreateUserInput {
   username: string;

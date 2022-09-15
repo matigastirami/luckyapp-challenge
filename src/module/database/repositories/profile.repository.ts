@@ -1,14 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PoolClient } from 'pg';
 import { DatabaseService } from '../database.service';
+import { IProfile } from '../models/profile.model';
 import { BaseRepository } from './base.repository';
-
-interface IProfile {
-  id: number;
-  userid: number;
-  addressid: number;
-  name: string;
-}
 
 export interface ICreateProfile {
   name: string;

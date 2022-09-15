@@ -2,12 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PoolClient } from 'pg';
 import { DatabaseService } from '../database.service';
 import { BaseRepository } from './base.repository';
-
-interface IAddress {
-  id: number;
-  street: string;
-  cityid: number;
-}
+import { IAddress } from '../models/address.model';
 
 export interface ICreateAddress {
   street: string;

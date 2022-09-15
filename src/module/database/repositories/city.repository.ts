@@ -1,13 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PoolClient } from 'pg';
 import { DatabaseService } from '../database.service';
+import { ICity } from '../models/city.model';
 import { BaseRepository } from './base.repository';
-
-interface ICity {
-  id: number;
-  name: string;
-  countryid: number;
-}
 
 @Injectable()
 export class CityRepository implements BaseRepository<ICity> {

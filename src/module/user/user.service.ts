@@ -6,11 +6,8 @@ import { AddressRepository } from '../database/repositories/address.repository';
 import { CityRepository } from '../database/repositories/city.repository';
 import { CountryRepository } from '../database/repositories/country.repository';
 import { ProfileRepository } from '../database/repositories/profile.repository';
-import {
-  UserRepository,
-  IGetUserResponse,
-} from '../database/repositories/user.repository';
-import { CreateUserDTO } from '../../dto/user.dto';
+import { UserRepository } from '../database/repositories/user.repository';
+import { CreateUserDTO, IGetUserResponse } from '../../dto/user.dto';
 import Hash from '../../helper/hash';
 
 @Injectable()
