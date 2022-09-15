@@ -12,6 +12,7 @@ import {
 } from '../database/database.module';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { UsernameTakenRule } from '../validators/user.validator';
 
 @Module({
   controllers: [UserController],
@@ -24,6 +25,7 @@ import { UserService } from './user.service';
     AddressRepository,
     CityRepository,
     CountryRepository,
+    UsernameTakenRule,
   ],
   imports: [DatabaseModule, AuthModule],
 })

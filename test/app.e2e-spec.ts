@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
+import { useContainer } from 'class-validator';
 
 describe('API tests', () => {
   let app: INestApplication;
@@ -15,6 +16,9 @@ describe('API tests', () => {
     currentTimestamp = Date.now();
 
     app = moduleFixture.createNestApplication();
+
+    useContainer(app.select(AppModule), { fallbackOnErrors: true });
+
     await app.init();
   });
 
@@ -265,6 +269,7 @@ describe('API tests', () => {
     const mockCreateUserRequest = {
       username: `test${currentTimestamp}`,
       password: 'test',
+      name: 'test',
       address: {
         street: 'test',
       },
@@ -275,5 +280,29 @@ describe('API tests', () => {
       .send(mockCreateUserRequest);
 
     expect(createUserResponse.statusCode).toBe(400);
+  });
+
+  it('014 - should fail is the username is taken', async () => {
+    const mockCreateUserRequest = {
+      username: `test${currentTimestamp}`,
+      password: 'test',
+      name: 'test',
+      address: {
+        street: 'test',
+        cityId: 1,
+      },
+    };
+
+    const createUserResponse = await request(app.getHttpServer())
+      .post('/user')
+      .send(mockCreateUserRequest);
+
+    expect(createUserResponse.statusCode).toBe(201);
+
+    const repeatUsernameResponse = await request(app.getHttpServer())
+      .post('/user')
+      .send(mockCreateUserRequest);
+
+    expect(repeatUsernameResponse.statusCode).toBe(400);
   });
 });

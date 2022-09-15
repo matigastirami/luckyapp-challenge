@@ -9,6 +9,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { isUserNameTaken } from '../validators/user.validator';
 
 export class CreateUserAddressDto {
   @IsDefined()
@@ -28,6 +29,7 @@ export class CreateUserDTO {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
+  @isUserNameTaken({ message: 'Username already taken' })
   username: string;
 
   @IsString()
